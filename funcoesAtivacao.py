@@ -23,7 +23,7 @@ def softmax(x): # importante para problemas de classificação com multiplas cla
     ex = np.exp(x)
     return ex / ex.sum()
 
-soma = 0.358
+soma = 2.1
 testeStep = step(soma)
 testeSigmoid = sigmoid(soma)
 testeHiperbolica = tangenteHiperbolica(soma)
