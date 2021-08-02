@@ -16,14 +16,20 @@ def criarRede():
     classificador.add(Dense(units = 16, activation='relu', kernel_initializer='random_uniform', input_dim = 30))
     #Dropout zera alguns valores de entrada para diminuir a chance de overfiting
     classificador.add(Dropout(0.3))
-    classificador.add(Dense(units = 32, activation='relu', kernel_initializer='random_uniform'))
+    classificador.add(Dense(units = 16, activation='relu', kernel_initializer='random_uniform'))
+    classificador.add(Dropout(0.3))
+    classificador.add(Dense(units = 16, activation='relu', kernel_initializer='random_uniform'))
+    classificador.add(Dropout(0.3))
+    classificador.add(Dense(units = 12, activation='relu', kernel_initializer='random_uniform'))
+    classificador.add(Dropout(0.3))
+    classificador.add(Dense(units = 12, activation='relu', kernel_initializer='random_uniform'))
     classificador.add(Dropout(0.3))
     classificador.add(Dense(units = 1, activation='sigmoid'))
     otimizador = keras.optimizers.Adam(lr=0.001, decay=0.0001, clipvalue=0.5)
-    classificador.compile(optimizer=otimizador, loss='binary_crossentropy', metrics=['binary_accuracy'])
+    classificador.compile(optimizer='adam', loss='binary_crossentropy', metrics=['binary_accuracy'])
     return classificador
     
-classificador = KerasClassifier(build_fn=criarRede,epochs=100, batch_size=10)
+classificador = KerasClassifier(build_fn=criarRede,epochs=110, batch_size=5)
 
 # resultados por fatia da base de dados
 resultado = cross_val_score(estimator=classificador, X = previsores,y = classe, cv = 10, scoring="accuracy")

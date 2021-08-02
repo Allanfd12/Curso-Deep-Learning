@@ -23,9 +23,8 @@ classificador.add(Dense(units = 16, activation='relu',
 # camada de saida
 classificador.add(Dense(units = 1, activation='sigmoid'))
 
-otimizador = keras.optimizers.Adam(lr=0.0001, decay=0.00001, clipvalue=0.5)
 
-classificador.compile(optimizer=otimizador, loss='binary_crossentropy',
+classificador.compile(optimizer='adam', loss='binary_crossentropy',
                       metrics=['binary_accuracy'])
 
 # cria a rede e define alguns parametros de treinamento
@@ -34,7 +33,7 @@ classificador.compile(optimizer=otimizador, loss='binary_crossentropy',
 
 # batch_size = numero de registros até atualizar pesos
 # epochs = numero de ciclos completos de interação com os dados
-classificador.fit(previsores_treinamento,classe_treinamento, batch_size=10, epochs=100)
+classificador.fit(previsores_treinamento,classe_treinamento, batch_size=5, epochs=110)
 
 #lÊ os pesos
 pesos0 = classificador.layers[0].get_weights()
