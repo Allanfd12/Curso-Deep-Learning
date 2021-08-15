@@ -1,8 +1,6 @@
 import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense
-from sklearn.model_selection import cross_val_score
-from keras.wrappers.scikit_learn import KerasRegressor
 
 base = pd.read_csv('../dataset/autos.csv', encoding='ISO-8859-1')
 
@@ -98,20 +96,20 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer 
 
 onehotencoder = ColumnTransformer([("norm1", OneHotEncoder(),[0,1,3,5,8,9,10])], remainder="passthrough")
-previsores = onehotencoder.fit_transform(previsores)
+previsores = onehotencoder.fit_transform(previsores).toarray()
 
-def criar_rede():
-    regressor = Sequential()
-    regressor.add(Dense(units = 80, activation='relu', input_dim = 321))
-    regressor.add(Dense(units = 1, activation='linear'))
-    regressor.compile(loss = 'mean_absolute_error', optimizer = 'adam', metrics=['mean_absolute_error'])
-    return regressor
+regressor = Sequential()
+regressor.add(Dense(units = 320, activation='relu', input_dim = 321))
+regressor.add(Dense(units = 320, activation='relu'))
+regressor.add(Dense(units = 160, activation='relu'))
+regressor.add(Dense(units = 160, activation='relu'))
+regressor.add(Dense(units = 80, activation='relu'))
+regressor.add(Dense(units = 80, activation='relu'))
+regressor.add(Dense(units = 1, activation='linear'))
+regressor.compile(loss = 'mean_absolute_error', optimizer = 'adam', metrics=['mean_absolute_error'])
 
-#regressor = KerasRegressor(build_fn = criar_rede, epochs = 100, batch_size=300)
-#resultado = cross_val_score(estimator = regressor, X = previsores, y=preco_real, cv=10, scoring= 'neg_mean_absolute_error')
+regressor.fit(previsores, preco_real, batch_size=300, epochs =5)
 
-#media = resultado.mean()
-#desvio = resultado.std()
 
 
 
